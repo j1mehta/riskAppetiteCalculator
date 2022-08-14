@@ -1,14 +1,16 @@
 // Setup: npm install alchemy-sdk
 import { Alchemy, Network } from "alchemy-sdk";
 import fetch from 'node-fetch';
+import * as https from 'https';
 
 const config = {
-  apiKey: "mZ_9bUQbJiMBHbX-oRYGQz4nL4ff2M0H",
+  apiKey: "AlchemyAPIKey",
   network: Network.ETH_MAINNET,
 };
 const alchemy = new Alchemy(config);
 
-const cryptoCompareAPIKey = "318137a74abd9b3d645c6f73753fcec5378cbc367dd0b94f0147be390bd3f4f7";
+
+const cryptoCompareAPIKey = "cryptoCompareKey";
 
 const safeTokenList = ['USDC', 'USDC', 'DAI', 'ETH', 'BUSD', 'SHIB', 'HEX','STETH','WBTC','FTT','OKB','LEO','LINK','UNI','CRO','APE','MANA','SAND','QNT','AAVE']
 const moderateTokenList = ['LDO','CEL','FRAX','CRI','AXS','1INCH','TUSD','CUSDC','KCS','CETH','GRT','MKR','SNX','USDP','CDAI','HBTC',
@@ -43,6 +45,15 @@ async function getNoOfTokensInWallet(token) {
   return {noOfTokensInWallet, metadata};
 }
 
+
+
+const response = await fetch('https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH&tsyms=USD&api_key='+cryptoCompareAPIKey);
+const data = await response.json();
+
+console.log("CC RESPONSE:    " + JSON.stringify(data));
+
+
+
 const main = async () => {
   // Wallet address
   const address = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
@@ -63,6 +74,7 @@ const main = async () => {
   let safeTokenBalance = 0;
   let moderateTokenBalance = 0;
   let shitCoinBalance = 0;
+
 
   // Loop through all tokens with non-zero balance
   for (let token of nonZeroBalances) {
