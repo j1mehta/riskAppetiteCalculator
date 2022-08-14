@@ -4,12 +4,12 @@ import fetch from 'node-fetch';
 import * as https from 'https';
 
 const config = {
-  apiKey: "mZ_9bUQbJiMBHbX-oRYGQz4nL4ff2M0H",
+  apiKey: "AlchemyAPIKey",
   network: Network.ETH_MAINNET,
 };
 const alchemy = new Alchemy(config);
 
-const cryptoCompareAPIKey = "318137a74abd9b3d645c6f73753fcec5378cbc367dd0b94f0147be390bd3f4f7";
+const cryptoCompareAPIKey = "cryptoCompareKey";
 
 
 const response = await fetch('https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH&tsyms=USD&api_key='+cryptoCompareAPIKey);
