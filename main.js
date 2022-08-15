@@ -2,6 +2,18 @@
 import { Alchemy, Network } from "alchemy-sdk";
 import fetch from 'node-fetch';
 
+// Wallet address
+
+
+//SAFE
+// const address = "0xdb9d281c3d29baa9587f5dac99dd982156913913";
+
+//Moderate
+// const address = "0xbdfa4f4492dd7b7cf211209c4791af8d52bf5c50";
+
+//AGGRESSIVE
+const address = "0xb680f628c56c8fa368dacbb0c27beef8c98355b9";
+
 const config = {
   apiKey: "mZ_9bUQbJiMBHbX-oRYGQz4nL4ff2M0H",
   network: Network.ETH_MAINNET,
@@ -10,7 +22,7 @@ const alchemy = new Alchemy(config);
 
 const cryptoCompareAPIKey = "318137a74abd9b3d645c6f73753fcec5378cbc367dd0b94f0147be390bd3f4f7";
 
-const safeTokenList = ['USDC', 'USDC', 'DAI', 'ETH', 'BUSD', 'SHIB', 'HEX','STETH','WBTC','FTT','OKB','LEO','LINK','UNI','CRO','APE','MANA','SAND','QNT','AAVE']
+const safeTokenList = ['USDC', 'USDC', 'DAI', 'ETH', 'BUSD', 'SHIB', 'HEX','STETH','WBTC','FTT','OKB','LEO','LINK','UNI','CRO','APE','MANA','SAND','QNT','AAVE','USDT']
 const moderateTokenList = ['LDO','CEL','FRAX','CRI','AXS','1INCH','TUSD','CUSDC','KCS','CETH','GRT','MKR','SNX','USDP','CDAI','HBTC',
   'BTSE','GT','CRV','ELG','BAT','ENJ','AMP','PAXG','LRC','NEXO','GALA','TKX','GNO','CUSDT']
 
@@ -44,8 +56,7 @@ async function getNoOfTokensInWallet(token) {
 }
 
 const main = async () => {
-  // Wallet address
-  const address = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
+
 
   // Get token balances
   const balances = await alchemy.core.getTokenBalances(address);
@@ -98,9 +109,9 @@ const main = async () => {
   }
 
   totalWalletBalance = totalWalletBalance.toFixed(2)
-  let safePercent = (safeTokenBalance/totalWalletBalance * 100).toFixed(2);
-  let moderatePercent = (moderateTokenBalance/totalWalletBalance * 100).toFixed(2);
-  let aggressivePercent = (shitCoinBalance/totalWalletBalance * 100).toFixed(2);
+  let safePercent = Number((safeTokenBalance/totalWalletBalance * 100).toFixed(2));
+  let moderatePercent = Number((moderateTokenBalance/totalWalletBalance * 100).toFixed(2));
+  let aggressivePercent = Number((shitCoinBalance/totalWalletBalance * 100).toFixed(2));
 
 //   console.log(" totalWalletBalance: " + totalWalletBalance +
 //       " safeTokenBalance: " + safeTokenBalance +
@@ -113,10 +124,10 @@ const main = async () => {
 //               "aggressivePercent: " + aggressivePercent
 // );
 
-  const allBalances = [["Total Wallet Balance (USD)", totalWalletBalance],
-    ["Total Value in Safe Assets (USD)", safeTokenBalance.toFixed(2)],
-    ["Total Value in Moderate Assets (USD)", moderateTokenBalance.toFixed(2)],
-    ["Total Value in Aggressive Assets (USD)", shitCoinBalance.toFixed(2)]
+  const allBalances = [["Total Wallet Balance (USD)", Number(totalWalletBalance)],
+    ["Total Value in Safe Assets (USD)", Number(safeTokenBalance.toFixed(2))],
+    ["Total Value in Moderate Assets (USD)", Number(moderateTokenBalance.toFixed(2))],
+    ["Total Value in Aggressive Assets (USD)", Number(shitCoinBalance.toFixed(2))]
   ]
   const percentages = [["Safe Asset Percentage", safePercent],
     ["Moderate Asset Percentage", moderatePercent],
@@ -127,9 +138,9 @@ const main = async () => {
 
   console.log("==================VERDICT==================")
 
-  if (safePercent > moderatePercent && safePercent > aggressivePercent) {
+  if ((safePercent > moderatePercent) && (safePercent > aggressivePercent)) {
     console.table(["RISK APPETITE: SAFE"])
-  } else if (moderatePercent > safePercent && moderatePercent > aggressivePercent) {
+  } else if ((moderatePercent > safePercent) && (moderatePercent > aggressivePercent)) {
     console.table(["RISK APPETITE: MODERATE"])
   } else {
     console.table(["RISK APPETITE: AGGRESSIVE"])
