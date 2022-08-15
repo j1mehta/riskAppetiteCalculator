@@ -80,13 +80,13 @@ const main = async () => {
         totalWalletBalance += noOfTokensInWallet * tokenPrice
 
         if(safeTokenList.includes(metadata.symbol.toString())) {
-          console.log("Updating safeTokenBalance: " + safeTokenBalance)
+          // console.log("Updating safeTokenBalance: " + safeTokenBalance)
           safeTokenBalance += noOfTokensInWallet * tokenPrice
         } else if(moderateTokenList.includes(metadata.symbol.toString())) {
-          console.log("Updating moderateTokenBalance: " + moderateTokenBalance)
+          // console.log("Updating moderateTokenBalance: " + moderateTokenBalance)
           moderateTokenBalance += noOfTokensInWallet * tokenPrice
         } else {
-          console.log("Updating shitCoinBalance: " + shitCoinBalance)
+          // console.log("Updating shitCoinBalance: " + shitCoinBalance)
           shitCoinBalance += noOfTokensInWallet * tokenPrice;
         }
 
@@ -98,19 +98,43 @@ const main = async () => {
   }
 
   totalWalletBalance = totalWalletBalance.toFixed(2)
-  let safePercent = safeTokenBalance/totalWalletBalance * 100;
-  let moderatePercent = moderateTokenBalance/totalWalletBalance * 100;
-  let aggressivePercent = shitCoinBalance/totalWalletBalance * 100;
-  console.log(" totalWalletBalance: " + totalWalletBalance +
-      " safeTokenBalance: " + safeTokenBalance +
-      " moderateTokenBalance: " + moderateTokenBalance +
-      "shitCoinBalance: " + shitCoinBalance
-  );
-  console.log(" totalWalletBalance: " + totalWalletBalance +
-              " safePercent: " + safePercent +
-              " moderatePercent: " + moderatePercent +
-              "aggressivePercent: " + aggressivePercent
-);
+  let safePercent = (safeTokenBalance/totalWalletBalance * 100).toFixed(2);
+  let moderatePercent = (moderateTokenBalance/totalWalletBalance * 100).toFixed(2);
+  let aggressivePercent = (shitCoinBalance/totalWalletBalance * 100).toFixed(2);
+
+//   console.log(" totalWalletBalance: " + totalWalletBalance +
+//       " safeTokenBalance: " + safeTokenBalance +
+//       " moderateTokenBalance: " + moderateTokenBalance +
+//       "shitCoinBalance: " + shitCoinBalance
+//   );
+//   console.log(" totalWalletBalance: " + totalWalletBalance +
+//               " safePercent: " + safePercent +
+//               " moderatePercent: " + moderatePercent +
+//               "aggressivePercent: " + aggressivePercent
+// );
+
+  const allBalances = [["Total Wallet Balance (USD)", totalWalletBalance],
+    ["Total Value in Safe Assets (USD)", safeTokenBalance.toFixed(2)],
+    ["Total Value in Moderate Assets (USD)", moderateTokenBalance.toFixed(2)],
+    ["Total Value in Aggressive Assets (USD)", shitCoinBalance.toFixed(2)]
+  ]
+  const percentages = [["Safe Asset Percentage", safePercent],
+    ["Moderate Asset Percentage", moderatePercent],
+    ["Aggressive Asset Percentage", aggressivePercent]]
+
+  console.table(allBalances);
+  console.table(percentages);
+
+  console.log("==================VERDICT==================")
+
+  if (safePercent > moderatePercent && safePercent > aggressivePercent) {
+    console.table(["RISK APPETITE: SAFE"])
+  } else if (moderatePercent > safePercent && moderatePercent > aggressivePercent) {
+    console.table(["RISK APPETITE: MODERATE"])
+  } else {
+    console.table(["RISK APPETITE: AGGRESSIVE"])
+  }
+
 
 };
 
